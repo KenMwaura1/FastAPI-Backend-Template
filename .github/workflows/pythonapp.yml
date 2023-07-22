@@ -33,6 +33,7 @@ jobs:
           src: "backend/src/"
       - name: Lint with Isort
         run: |
+            pip install isort
             isort . --profile black
       - name: Lint with flake8
         run: |
