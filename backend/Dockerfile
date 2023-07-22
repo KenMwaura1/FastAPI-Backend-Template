@@ -1,5 +1,5 @@
 # Pull official latest Python Docker image (Pulished with version 3.11.0)
-FROM --platform=linux/amd64 python:latest
+FROM --platform=linux/amd64 python:alpine3.11
 
 # Set the working directory
 WORKDIR /usr/backend
@@ -16,15 +16,19 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Set the server port
 EXPOSE 8000
 
-# Install system dependencies
-RUN apt-get update \
-  && apt-get -y install netcat gcc postgresql \
-  && apt-get clean
-
-# Install Python dependencies
-RUN pip install --upgrade pip
+# Copy requirements.txt
 COPY ./requirements.txt ./
-RUN pip3 install -r requirements.txt
+
+# Install system dependencies
+RUN set -eux \
+    && apk add --no-cache --virtual .build-deps build-base \
+    libressl-dev libffi-dev gcc musl-dev python3-dev \
+    postgresql-dev 
+# Install Python dependencies
+RUN pip install --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apk del .build-deps \
+    && rm -rf /root/.cache/pip
 
 # Copy all files
 COPY . .
