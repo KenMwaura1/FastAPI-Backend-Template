@@ -2,11 +2,11 @@
 
 <div align=center>
  <a href="https://github.com/Aeternalis-Ingenium/FastAPI-Backend-Template/actions/workflows/ci-backend.yaml">
-  <img src="https://github.com/Aeternalis-Ingenium/FastAPI-Backend-Template/actions/workflows/ci-backend.yaml/badge.svg"/> 
+  <img src="https://github.com/Aeternalis-Ingenium/FastAPI-Backend-Template/actions/workflows/ci-backend.yaml/badge.svg"/>
  </a>
 
  <a href="https://codecov.io/gh/Aeternalis-Ingenium/FastAPI-Backend-Template">
-  <img src="https://codecov.io/gh/Aeternalis-Ingenium/FastAPI-Backend-Template/branch/trunk/graph/badge.svg?token=1hiVayuLRl"/> 
+  <img src="https://codecov.io/gh/Aeternalis-Ingenium/FastAPI-Backend-Template/branch/trunk/graph/badge.svg?token=1hiVayuLRl"/>
  </a>
 
  <a href="https://github.com/pre-commit/pre-commit">
@@ -58,7 +58,7 @@ The above-listed technologies are just the main ones. There are other technologi
 * [Pyenv-VirtualEnv](https://github.com/pyenv/pyenv-virtualenv) $\rightarrow$ The plugin for `Pyenv` to manage the virtual environment for our packages.
 * [Pre-Commit](https://pre-commit.com/) $\rightarrow$ Git hook scripts to identify issues and quality of your code before pushing it to GitHub. These hooks are implemented for the following linting packages:
   * [Black (Python)](https://black.readthedocs.io/en/stable/) $\rightarrow$ Manage your code style with auto-formatting and parallel continuous integration runner for Python.
-  * [Isort (Python)](https://pycqa.github.io/isort/) $\rightarrow$ Sort your `import` for clarity. Also for Python. 
+  * [Isort (Python)](https://pycqa.github.io/isort/) $\rightarrow$ Sort your `import` for clarity. Also for Python.
   * [MyPy (Python)](https://mypy.readthedocs.io/en/stable/) $\rightarrow$ A static type checker for Python that helps you to write cleaner code.
 * [Pre-Commit CI](https://pre-commit.ci/) $\rightarrow$ Continuous integration for our Pre-Commit hook that fixes and updates our hook versions.
 * [CodeCov](https://about.codecov.io/) $\rightarrow$ A platform that analyzes the result of your automated tests.
@@ -73,6 +73,7 @@ My choice for a project development workflow is usually the [Trunk-Based Develop
 ## What Code is included?
 
 For the backend application:
+
 * The project, linter, and test configurations in `backend/pyproject.toml`.
 * 3 settings classes (development, staging, production) with the super class in `backend/src/config/settings/base.py`.
 * Event logger in `backend/src/config/events.py`.
@@ -95,10 +96,12 @@ For the backend application:
 * A comprehensive FastAPI application initialization in `backend/src/main.py`.
 
 For testing, I have prepared the following simple code to kick-start your test-driven development:
+
 * A simple replication of the backend application for testing purposes and the asynchronous test client in `backend/tests/conftest.py`.
 * 2 simple test functions to test the backend application initialization in `tests/unit_tests/test_src.py`.
 
 For the DevOps:
+
 * A simple `build` job to test the compilation of the source code for the backend application in `.github/workflows/ci-backend.yaml`.
 * A simple linting job called `code-style` with black, isort, flake8, and mypy in `.github/workflows/ci-backend.yaml`.
 * An automated testing with `PyTest` and an automated test reporting with `Codecov` in in `.github/workflows/ci-backend.yaml`.
@@ -108,11 +111,13 @@ For the DevOps:
 * A CI for automatically updating all linter version in the pre-commit `YAML` file in `.pre-commit-config.YAML`.
 
 For containerization:
+
 * A `Docker` configuration that utilizes the latest Python image in `backend/Dockerfile`.
 * A script that ensure the backend application will restart when postgres image hasn't started yet in `backend/entrypoint.sh`.
 * Setting up `Postgres` image for our database server, `Adminer` for our database editor, and `backend_app` for our backend application's container in `docker-compose.yaml`.
 
 For the team development environment:
+
 * A pre-commit hooks for `Black`, `Isort`, and `MyPy` to ensure the conventional commit message before pushing an updated code into the remote repository in `.pre-commit-config.YAML`.
 * All secret variables are listed in `.env.example`. You need to copy these variables and set the values respectively to your need and save them in a new `.env` in the root directory.
 
@@ -121,11 +126,13 @@ For the team development environment:
 This backend application is setup with `Docker`. Nevertheless, you can see the full local setup without `Docker` in [backend/README.md](https://github.com/Aeternalis-Ingenium/FastAPI-Backend-Template/blob/trunk/backend/README.md).
 
 1. Before setting up the backend app, please create a new directory called `coverage` for the testing report purpose:
+
    ```shell
    cd backend && mkdir coverage
    ```
 
 2. Backend app setup:
+
     ```shell
     # Creating VENV
     pyenv virtualenv 3.11.0 any_venv_name
@@ -140,6 +147,7 @@ This backend application is setup with `Docker`. Nevertheless, you can see the f
 
 3. Testing with `PyTest`:
    Make sure that you are in the `backend/` directory.
+
    ```shell
    # For testing without Docker
    pytest
@@ -149,6 +157,7 @@ This backend application is setup with `Docker`. Nevertheless, you can see the f
    ```
 
 4. `Pre-Commit` setup:
+
     ```shell
     # Make sure you are in the ROOT project directory
     pre-commit install
@@ -174,6 +183,7 @@ This backend application is setup with `Docker`. Nevertheless, you can see the f
     Go to `.github/` and open `CODEOWNERS` file. This file is to assign the code to a specific team member so you can distribute the weights of the project clearly.
 
 7. Docker setup:
+
    ```shell
     # Make sure you are in the ROOT project directory
     chmod +x backend/entrypoint.sh
@@ -186,6 +196,7 @@ This backend application is setup with `Docker`. Nevertheless, you can see the f
    ```
 
 8. (IMPORTANT) Database setup:
+
    ```shell
     # (Docker) Generate revision for the database auto-migrations
     docker exec backend_app alembic revision --autogenerate -m "YOUR MIGRATION TITLE"
@@ -196,7 +207,7 @@ This backend application is setup with `Docker`. Nevertheless, you can see the f
     alembic upgrade head    # to register the database classes
    ```
 
-9. Go to https://about.codecov.io/, and sign up with your github to get the `CODECOV_TOKEN`
+9. Go to <https://about.codecov.io/>, and sign up with your github to get the `CODECOV_TOKEN`
 
 10. Go to your GitHub and register all the secret variables (look in .env.example) in your repository (`settings` $\rightarrow$ (scroll down a bit) `Secrets` $\rightarrow$ `Actions` $\rightarrow$ `New repository secret`)
 
@@ -272,7 +283,7 @@ backend/
             ├── field_formatter.py      # Reformat snake_case to camelCase
         ├── messages/
             ├── http/
-                ├── http_exc_details.py	# Custom message for HTTP exceptions
+                ├── http_exc_details.py # Custom message for HTTP exceptions
     ├── main.py                         # Our main backend server app
 ├── tests/
     ├── end_to_end_tests/               # End-to-end tests
@@ -299,9 +310,9 @@ docker-compose.yaml                     # The main configuration file for settin
 ## Final Step
 
 You can delete these 3 files (or change its content based on your need):
-- `LICENSE.md`
-- `README.md`
-- `backend/README.md`
+* `LICENSE.md`
+* `README.md`
+* `backend/README.md`
 
 Enjoy your development and may your technology be forever useful to everyone 😉🚀🧬
 
