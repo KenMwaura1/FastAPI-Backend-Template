@@ -1,26 +1,33 @@
 # Python related code
-*.py @Aeternalis-Ingenium
+
+*.py @KenMwaura1
 
 # Java Script related code
-*.tsx @Aeternalis-Ingenium
-*.ts @Aeternalis-Ingenium
-*.cjs @Aeternalis-Ingenium
+
+*.tsx @KenMwaura1
+*.ts @KenMwaura1
+*.cjs @KenMwaura1
 
 # HTML & CSS related code
-*.html @Aeternalis-Ingenium
-*.css @Aeternalis-Ingenium
-*.scss @Aeternalis-Ingenium
+
+*.html @KenMwaura1
+*.css @KenMwaura1
+*.scss @KenMwaura1
 
 # JSON related code
-*.json @Aeternalis-Ingenium
+
+*.json @KenMwaura1
 
 # DevOps related code
-*.yml @Aeternalis-Ingenium
-*.yaml @Aeternalis-Ingenium
+
+*.yml @KenMwaura1
+*.yaml @KenMwaura1
 
 # Terraform
-*.tf @Aeternalis-Ingenium
+
+*.tf @KenMwaura1
 
 # Docker related code
-Dockerfile @Aeternalis-Ingenium
-*.prod @Aeternalis-Ingenium
+
+Dockerfile @KenMwaura1
+*.prod @KenMwaura1
