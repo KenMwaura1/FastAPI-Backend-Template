@@ -164,7 +164,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Install Dependencies for Testing
         run: |
-          pip install pytest pytest-asyncio pytest pytest-xdist
+          pip install pytest pytest-asyncio pytest-xdist
       - name: Test with Pytest-Cov
         run: |
           pytest --cov --cov-report xml .

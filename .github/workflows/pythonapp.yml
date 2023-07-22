@@ -55,7 +55,7 @@ jobs:
           postgresql user: hello_fastapi
           # POSTGRES_PASSWORD - superuser password
           postgresql password: hello_fastapi
-      - name: Test with pytest
-        run: |
-          pip install pytest
-          pytest .
+      # - name: Test with pytest
+      #   run: |
+      #     pip install pytest pytest-asyncio pytest-xdist
+      #     pytest --cov --cov-report xml . 
