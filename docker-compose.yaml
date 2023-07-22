@@ -5,6 +5,7 @@ services:
     image: postgres:latest
     container_name: db
     restart: always
+    command: ["cp", ".env.example", ".env"]
     environment:
       - POSTGRES_USER=${POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -40,6 +41,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./backend/
+    command: ["cp", ".env.example", ".env"]
     environment:
       - ENVIRONMENT=${ENVIRONMENT}
       - DEBUG=${DEBUG}
