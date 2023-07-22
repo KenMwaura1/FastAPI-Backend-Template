@@ -49,7 +49,7 @@ This backend application template consists of:
 
 ---
 
-## SSHhhhttt 🤫 It's a Secret!
+## SSHhhhttt 🤫 It's a Secret
 
 All secret variables are configured in the `.env`, but in this case since it is listed in our `.gitignore` you should create one and save it in the root directory.
 
@@ -73,6 +73,7 @@ The secret variables are accessed by 2 different files:
 * Step 3 $\rightarrow$ Register your database credentials respectively in our `.env` file in the root directory.
 
 * Step 4 (Optional) $\rightarrow$ To stop your postgres server, run:
+
     ```shell
     brew services stop postgres@14
     ```
@@ -84,11 +85,13 @@ The secret variables are accessed by 2 different files:
 **INFO**: You need to import your domain classes in `backend/src/repository/base.py` for alembic's auto migration!
 
 * Step 1 $\rightarrow$ Create the initialization of your database migration:
+
     ```shell
     alembic revision --autogenerate -m "YOUR NOTES ABOUT THE DATABASE MIGRATION HERE"
     ```
 
 * Step 2 $\rightarrow$ Push the registered database objects to your database:
+
     ```shell
     alembic upgrade head
     ```
@@ -100,11 +103,13 @@ The secret variables are accessed by 2 different files:
 **INFO**: Run **Step 1** every time you `git add` a file to identify any mistakes before `git commit`. Otherwise, you will re-write your perfect commit message again 👿🤬🤮
 
 * Step 1 $\rightarrow$ Install the pre-commit hook:
+
     ```shell
     pre-commit
     ```
 
 * Step 2 $\rightarrow$ For good practive, let#s update the hooks:
+
     ```shell
     pre-commit autoupgrade
     ```
@@ -129,6 +134,7 @@ Check the `pyproject.toml` as the main configuration file for the following pack
 **INFO**: Make sure that you are in the `backend/` directory!
 
 * Stp 1 $\rightarrow$ Run the server:
+
     ```shell
     uvicorn src.main:backend_app --reload
     ```
