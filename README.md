@@ -310,6 +310,7 @@ docker-compose.yaml                     # The main configuration file for settin
 ## Final Step
 
 You can delete these 3 files (or change its content based on your need):
+
 * `LICENSE.md`
 * `README.md`
 * `backend/README.md`
