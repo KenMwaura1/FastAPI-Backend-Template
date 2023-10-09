@@ -38,7 +38,7 @@ jobs:
             pip install isort
             isort . --profile black
       # - name: Lint with Ruff
-      #   uses: stefanzweifel/git-auto-commit-action@v4
+      #   uses: stefanzweifel/git-auto-commit-action@v5
       #   with:
       #     commit_message: 'style fixes by ruff'
       # - run: |
@@ -71,6 +71,6 @@ jobs:
         - run: | 
             ruff check . --exclude "tests/ 
             ruff --fix . --exclude "tests/
-        - uses: stefanzweifel/git-auto-commit-action@v4
+        - uses: stefanzweifel/git-auto-commit-action@v5
           with:
             commit_message: 'style fixes by ruff'
