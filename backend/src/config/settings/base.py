@@ -3,18 +3,20 @@ import pathlib
 
 import decouple
 import pydantic
+from pydantic_settings import BaseSettings
 
 ROOT_DIR: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent.parent.resolve()
 
 
-class BackendBaseSettings(pydantic.BaseSettings):
+class BackendBaseSettings(BaseSettings):
+
     TITLE: str = "DAPSQL FARN-Stack Template Application"
     VERSION: str = "0.1.0"
     TIMEZONE: str = "UTC"
     DESCRIPTION: str | None = None
     DEBUG: bool = False
 
-    SERVER_HOST: str = decouple.config("BACKEND_SERVER_HOST", cast=str)  # type: ignore
+    SERVER_HOST: str = decouple.config("BACKEND_SERVER_HOST",cast=str)  # type: ignore
     SERVER_PORT: int = decouple.config("BACKEND_SERVER_PORT", cast=int)  # type: ignore
     SERVER_WORKERS: int = decouple.config("BACKEND_SERVER_WORKERS", cast=int)  # type: ignore
     API_PREFIX: str = "/api"
