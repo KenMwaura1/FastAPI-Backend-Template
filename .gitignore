@@ -20,6 +20,8 @@ __pycache__/
 .mf
 .rollup.cache
 tsconfig.tsbuildinfo
+.ruff_cache
+
 
 # Celery (Python's asynchronous task queues framework)
 celerybeat-schedule
