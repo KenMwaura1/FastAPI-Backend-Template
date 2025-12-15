@@ -19,7 +19,6 @@ async def get_current_account(
 ) -> Account:
     try:
         user_id = jwt_generator.retrieve_details_from_token(token=token.credentials, secret_key=settings.JWT_SECRET_KEY)
-        
     except ValueError:
         raise await http_exc_401_unauthorized_request()
 
@@ -27,5 +26,4 @@ async def get_current_account(
         db_account = await account_repo.read_account_by_id(id=int(user_id))
     except EntityDoesNotExist:
         raise await http_exc_401_unauthorized_request()
-        
     return db_account
