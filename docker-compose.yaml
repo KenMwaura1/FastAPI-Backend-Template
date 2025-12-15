@@ -1,11 +1,8 @@
-version: '3.9'
-
 services:
   db:
     image: postgres:latest
     container_name: db
     restart: always
-    command: ["cp", ".env.example", ".env"]
     environment:
       - POSTGRES_USER=${POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -17,6 +14,11 @@ services:
       - 5432
     ports:
       - 5433:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USERNAME} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   db_editor:
     image: adminer
@@ -33,7 +35,8 @@ services:
     ports:
       - 8081:8080
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   backend_app:
     container_name: backend_app
@@ -41,7 +44,6 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./backend/
-    command: ["cp", ".env.example", ".env"]
     environment:
       - ENVIRONMENT=${ENVIRONMENT}
       - DEBUG=${DEBUG}
@@ -81,7 +83,8 @@ services:
     ports:
       - 8001:8000
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 volumes:
   postgresql_db_data:
