@@ -2,7 +2,6 @@
 
 line-length = 120
 target-version = "py39"
-select = ["E", "W"]
 
 exclude = [
     ".bzr",
@@ -28,4 +27,6 @@ exclude = [
     "venv",
 ]
 
+[lint]
+select = ["E", "W"]
 ignore = ["E501"]

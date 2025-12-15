@@ -4,11 +4,12 @@ from src.api.dependencies.repository import get_repository
 from src.models.schemas.account import AccountInCreate, AccountInLogin, AccountInResponse, AccountWithToken
 from src.repository.crud.account import AccountCRUDRepository
 from src.securities.authorizations.jwt import jwt_generator
-from src.utilities.exceptions.database import EntityAlreadyExists
+from src.utilities.exceptions.database import EntityAlreadyExists, EntityDoesNotExist
 from src.utilities.exceptions.http.exc_400 import (
     http_exc_400_credentials_bad_signin_request,
     http_exc_400_credentials_bad_signup_request,
 )
+from src.utilities.exceptions.password import PasswordDoesNotMatch
 
 router = fastapi.APIRouter(prefix="/auth", tags=["authentication"])
 
@@ -24,8 +25,7 @@ async def signup(
     account_repo: AccountCRUDRepository = fastapi.Depends(get_repository(repo_type=AccountCRUDRepository)),
 ) -> AccountInResponse:
     try:
-        await account_repo.is_username_taken(username=account_create.username)
-        await account_repo.is_email_taken(email=account_create.email)
+        await account_repo.is_username_or_email_taken(username=account_create.username, email=account_create.email)
 
     except EntityAlreadyExists:
         raise await http_exc_400_credentials_bad_signup_request()
@@ -38,7 +38,7 @@ async def signup(
         authorized_account=AccountWithToken(
             token=access_token,
             username=new_account.username,
-            email=new_account.email,  # type: ignore
+            email=new_account.email,
             is_verified=new_account.is_verified,
             is_active=new_account.is_active,
             is_logged_in=new_account.is_logged_in,
@@ -61,7 +61,7 @@ async def signin(
     try:
         db_account = await account_repo.read_user_by_password_authentication(account_login=account_login)
 
-    except Exception:
+    except (EntityDoesNotExist, PasswordDoesNotMatch):
         raise await http_exc_400_credentials_bad_signin_request()
 
     access_token = jwt_generator.generate_access_token(account=db_account)
@@ -71,7 +71,7 @@ async def signin(
         authorized_account=AccountWithToken(
             token=access_token,
             username=db_account.username,
-            email=db_account.email,  # type: ignore
+            email=db_account.email,
             is_verified=db_account.is_verified,
             is_active=db_account.is_active,
             is_logged_in=db_account.is_logged_in,

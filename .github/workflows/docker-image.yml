@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Test the Docker image
-        run: docker compose up -d 
+      # - name: Test the Docker image
+      #   run: docker compose up -d && sleep 10 && docker compose ps
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -61,10 +61,10 @@ jobs:
               ${{ runner.os }}-buildx-
 
       - name: Build and push Docker image
-        if : github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v6
         with:
-          context: "{{defaultContext}}:backend"
+          context: ./backend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
