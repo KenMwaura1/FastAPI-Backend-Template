@@ -34,7 +34,7 @@ class BackendBaseSettings(BaseSettings):
     DB_POSTGRES_PORT: int = decouple.config("POSTGRES_PORT", cast=int)  # type: ignore
     DB_POSTGRES_SCHEMA: str = decouple.config("POSTGRES_SCHEMA", cast=str)  # type: ignore
     DB_TIMEOUT: int = decouple.config("DB_TIMEOUT", cast=int)  # type: ignore
-    DB_POSTGRES_USENRAME: str = decouple.config("POSTGRES_USERNAME", cast=str)  # type: ignore
+    DB_POSTGRES_USERNAME: str = decouple.config("POSTGRES_USERNAME", cast=str)  # type: ignore
 
     IS_DB_ECHO_LOG: bool = decouple.config("IS_DB_ECHO_LOG", cast=bool)  # type: ignore
     IS_DB_FORCE_ROLLBACK: bool = decouple.config("IS_DB_FORCE_ROLLBACK", cast=bool)  # type: ignore
@@ -45,10 +45,7 @@ class BackendBaseSettings(BaseSettings):
     JWT_TOKEN_PREFIX: str = decouple.config("JWT_TOKEN_PREFIX", cast=str)  # type: ignore
     JWT_SECRET_KEY: str = decouple.config("JWT_SECRET_KEY", cast=str)  # type: ignore
     JWT_SUBJECT: str = decouple.config("JWT_SUBJECT", cast=str)  # type: ignore
-    JWT_MIN: int = decouple.config("JWT_MIN", cast=int)  # type: ignore
-    JWT_HOUR: int = decouple.config("JWT_HOUR", cast=int)  # type: ignore
-    JWT_DAY: int = decouple.config("JWT_DAY", cast=int)  # type: ignore
-    JWT_ACCESS_TOKEN_EXPIRATION_TIME: int = JWT_MIN * JWT_HOUR * JWT_DAY
+    JWT_ACCESS_TOKEN_EXPIRATION_TIME: int = 30 # 30 minutes
 
     IS_ALLOWED_CREDENTIALS: bool = decouple.config("IS_ALLOWED_CREDENTIALS", cast=bool)  # type: ignore
     ALLOWED_ORIGINS: list[str] = [
