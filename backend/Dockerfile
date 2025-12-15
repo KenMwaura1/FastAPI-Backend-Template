@@ -13,9 +13,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # Install system dependencies needed for building Python packages
-# libpq is needed for runtime, build-base etc for building
+# postgresql-client is needed for runtime, build-base etc for building
 RUN apk add --no-cache \
-    libpq \
+    postgresql-client \
     && apk add --no-cache --virtual .build-deps \
     build-base \
     libffi-dev \
