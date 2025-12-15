@@ -18,6 +18,7 @@ class JWTGenerator:
         *,
         jwt_data: dict[str, str],
         expires_delta: datetime.timedelta | None = None,
+        sub: str | None = None
     ) -> str:
         to_encode = jwt_data.copy()
 
@@ -25,9 +26,9 @@ class JWTGenerator:
             expire = datetime.datetime.utcnow() + expires_delta
 
         else:
-            expire = datetime.datetime.utcnow() + datetime.timedelta(minutes=settings.JWT_MIN)
+            expire = datetime.datetime.utcnow() + datetime.timedelta(minutes=settings.JWT_ACCESS_TOKEN_EXPIRATION_TIME)
 
-        to_encode.update(JWToken(exp=expire, sub=settings.JWT_SUBJECT).dict())
+        to_encode.update(JWToken(exp=expire, sub=sub if sub else settings.JWT_SUBJECT).dict())
 
         return jose_jwt.encode(to_encode, key=settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
 
@@ -38,12 +39,13 @@ class JWTGenerator:
         return self._generate_jwt_token(
             jwt_data=JWTAccount(username=account.username, email=account.email).dict(),  # type: ignore
             expires_delta=datetime.timedelta(minutes=settings.JWT_ACCESS_TOKEN_EXPIRATION_TIME),
+            sub=str(account.id)
         )
 
-    def retrieve_details_from_token(self, token: str, secret_key: str) -> list[str]:
+    def retrieve_details_from_token(self, token: str, secret_key: str) -> str:
         try:
             payload = jose_jwt.decode(token=token, key=secret_key, algorithms=[settings.JWT_ALGORITHM])
-            jwt_account = JWTAccount(username=payload["username"], email=payload["email"])
+            user_id = payload["sub"]
 
         except JoseJWTError as token_decode_error:
             raise ValueError("Unable to decode JWT Token") from token_decode_error
@@ -51,7 +53,7 @@ class JWTGenerator:
         except pydantic.ValidationError as validation_error:
             raise ValueError("Invalid payload in token") from validation_error
 
-        return [jwt_account.username, jwt_account.email]
+        return user_id
 
 
 def get_jwt_generator() -> JWTGenerator:
