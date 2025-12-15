@@ -100,7 +100,6 @@ class AccountCRUDRepository(BaseCRUDRepository):
 
         for key, value in new_account_data.items():
             setattr(update_account, key, value)
-            
         update_account.updated_at = sqlalchemy_functions.now()
 
         self.async_session.add(instance=update_account)
