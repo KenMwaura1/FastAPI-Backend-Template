@@ -3,7 +3,7 @@ import pathlib
 
 import decouple
 import pydantic
-from pydantic_settings import BaseSettings
+from pydantic import BaseSettings
 
 ROOT_DIR: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent.parent.resolve()
 
@@ -73,6 +73,7 @@ class BackendBaseSettings(BaseSettings):
         case_sensitive: bool = True
         env_file: str = f"{str(ROOT_DIR)}/.env"
         validate_assignment: bool = True
+        extra = "ignore"
 
     @property
     def set_backend_app_attributes(self) -> dict[str, str | bool | None]:
