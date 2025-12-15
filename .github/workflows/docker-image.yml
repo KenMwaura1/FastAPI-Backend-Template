@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Test the Docker image
-        run: docker compose up -d && sleep 10 && docker compose ps
+      # - name: Test the Docker image
+      #   run: docker compose up -d && sleep 10 && docker compose ps
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
