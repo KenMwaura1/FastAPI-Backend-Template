@@ -132,14 +132,14 @@ async def test_update_account(async_client: AsyncClient):
         json={"username": "updateduser2"},
     )
     assert response.status_code == 401
-    
+
     # Create a second user
     second_signup_response = await async_client.post(
         "/api/auth/signup",
         json={"username": "secondupdateuser", "email": "secondupdate@example.com", "password": "password"},
     )
     second_user_id = second_signup_response.json()["id"]
-    
+
     # Test update another user's account
     response = await async_client.patch(
         f"/api/accounts/{second_user_id}",
@@ -155,7 +155,7 @@ async def test_update_account(async_client: AsyncClient):
         json={"password": "newpassword"},
     )
     assert response.status_code == 200
-    
+
     # Sign in with new password
     response = await async_client.post(
         "/api/auth/signin",
