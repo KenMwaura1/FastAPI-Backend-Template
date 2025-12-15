@@ -1,7 +1,8 @@
-import asgi_lifespan
 import fastapi
 import httpx
 import pytest
+import pytest_asyncio
+import typing
 
 from src.main import initialize_backend_application
 
@@ -15,17 +16,18 @@ def backend_test_app() -> fastapi.FastAPI:
     return initialize_backend_application()
 
 
-@pytest.fixture(name="initialize_backend_test_application")
-async def initialize_backend_test_application(backend_test_app: fastapi.FastAPI) -> fastapi.FastAPI:  # type: ignore
-    async with asgi_lifespan.LifespanManager(backend_test_app):
-        yield backend_test_app
+@pytest_asyncio.fixture(name="initialize_backend_test_application")
+async def initialize_backend_test_application(backend_test_app: fastapi.FastAPI) -> typing.AsyncGenerator[fastapi.FastAPI, None]:
+    await backend_test_app.router.startup()
+    yield backend_test_app
+    await backend_test_app.router.shutdown()
 
 
-@pytest.fixture(name="async_client")
-async def async_client(initialize_backend_test_application: fastapi.FastAPI) -> httpx.AsyncClient:  # type: ignore
+@pytest_asyncio.fixture(name="async_client")
+async def async_client(initialize_backend_test_application: fastapi.FastAPI) -> typing.AsyncGenerator[httpx.AsyncClient, None]:
     async with httpx.AsyncClient(
-        app=initialize_backend_test_application,
-        base_url="http://testserver",
-        headers={"Content-Type": "application/json"},
-    ) as client:
+            transport=httpx.ASGITransport(app=initialize_backend_test_application),
+            base_url="http://testserver",
+            headers={"Content-Type": "application/json"},
+        ) as client:
         yield client
