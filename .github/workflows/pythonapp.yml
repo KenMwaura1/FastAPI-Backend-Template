@@ -34,8 +34,7 @@ jobs:
           options: "--exclude=tests/"
           src: "backend/src/"
       - name: Lint with Isort
-        run: 
-          |
+        run: |
             pip install isort
             isort . --profile black
       # - name: Lint with Ruff
